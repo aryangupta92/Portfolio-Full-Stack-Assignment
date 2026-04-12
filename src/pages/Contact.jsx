@@ -4,26 +4,47 @@ import { personalInfo } from '../data/portfolio';
 import './Contact.css';
 
 export default function Contact() {
-  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
-  const [status, setStatus] = useState(null);
+  const [form, setForm]       = useState({ name: '', email: '', subject: '', message: '' });
+  const [status, setStatus]   = useState(null); // null | 'sending' | 'sent' | 'error'
+  const [errMsg, setErrMsg]   = useState('');
   const [focused, setFocused] = useState(null);
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('sending');
-    setTimeout(() => {
+    setErrMsg('');
+
+    try {
+      const res = await fetch('/api/contact', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(form),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setErrMsg(data.error || 'Something went wrong. Please try again.');
+        setStatus('error');
+        return;
+      }
+
       setStatus('sent');
       setForm({ name: '', email: '', subject: '', message: '' });
-    }, 1500);
+    } catch (err) {
+      console.error(err);
+      setErrMsg('Network error. Please check your connection and try again.');
+      setStatus('error');
+    }
   };
 
   const channels = [
-    { icon: '📧', label: 'Email',    value: personalInfo.email,              href: `mailto:${personalInfo.email}`,  color: '#6366f1' },
-    { icon: '💼', label: 'LinkedIn', value: 'linkedin.com/in/aryan-gupta-a161b4314', href: personalInfo.linkedin,  color: '#06b6d4' },
-    { icon: '🐙', label: 'GitHub',   value: 'github.com/aryangupta92',              href: personalInfo.github,    color: '#8b5cf6' },
-    { icon: '📍', label: 'Location', value: personalInfo.location,           href: null,                            color: '#10b981' },
+    { icon: '📧', label: 'Email',    value: personalInfo.email,                             href: `mailto:${personalInfo.email}`,  color: '#6366f1' },
+    { icon: '💼', label: 'LinkedIn', value: 'linkedin.com/in/aryan-gupta-a161b4314',        href: personalInfo.linkedin,           color: '#06b6d4' },
+    { icon: '🐙', label: 'GitHub',   value: 'github.com/aryangupta92',                      href: personalInfo.github,             color: '#8b5cf6' },
+    { icon: '📍', label: 'Location', value: personalInfo.location,                          href: null,                            color: '#10b981' },
   ];
 
   return (
@@ -111,6 +132,7 @@ export default function Contact() {
               <p>I typically reply within 24 hours</p>
             </div>
 
+            {/* ── Success state ── */}
             {status === 'sent' ? (
               <div className="contact-success">
                 <div className="contact-success-icon">✅</div>
@@ -122,11 +144,19 @@ export default function Contact() {
               </div>
             ) : (
               <form className="contact-form" onSubmit={handleSubmit}>
+
+                {/* Error banner */}
+                {status === 'error' && (
+                  <div className="contact-error-banner">
+                    ⚠️ {errMsg}
+                  </div>
+                )}
+
                 <div className="contact-form-row">
                   <div className={`contact-field ${focused === 'name' ? 'focused' : ''}`}>
                     <label htmlFor="name">Your Name</label>
                     <input
-                      id="name" name="name" type="text" placeholder="John Doe"
+                      id="name" name="name" type="text" placeholder="Aryan Gupta"
                       value={form.name} onChange={handleChange}
                       onFocus={() => setFocused('name')} onBlur={() => setFocused(null)}
                       required
@@ -135,7 +165,7 @@ export default function Contact() {
                   <div className={`contact-field ${focused === 'email' ? 'focused' : ''}`}>
                     <label htmlFor="email">Email Address</label>
                     <input
-                      id="email" name="email" type="email" placeholder="john@example.com"
+                      id="email" name="email" type="email" placeholder="you@example.com"
                       value={form.email} onChange={handleChange}
                       onFocus={() => setFocused('email')} onBlur={() => setFocused(null)}
                       required
