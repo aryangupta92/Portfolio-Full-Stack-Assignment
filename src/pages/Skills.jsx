@@ -93,8 +93,8 @@ export default function Skills() {
           <div className="skills-marquee-inner">
             {['React', 'Node.js', 'TypeScript', 'Python', 'PostgreSQL', 'AWS', 'Docker', 'GraphQL',
               'React', 'Node.js', 'TypeScript', 'Python', 'PostgreSQL', 'AWS', 'Docker', 'GraphQL'].map((tech, i) => (
-              <div key={i} className="skills-marquee-badge">{tech}</div>
-            ))}
+                <div key={i} className="skills-marquee-badge">{tech}</div>
+              ))}
           </div>
         </div>
       </motion.div>

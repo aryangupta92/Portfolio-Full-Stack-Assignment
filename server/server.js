@@ -3,6 +3,7 @@ import mongoose     from 'mongoose';
 import cors         from 'cors';
 import dotenv       from 'dotenv';
 import contactRoutes from './routes/contact.js';
+import resumeRoutes  from './routes/resume.js';
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // ── Routes ─────────────────────────────────────────────────────────────────
 app.use('/api', contactRoutes);
+app.use('/api/download', resumeRoutes);
 
 // Health-check (Render pings this to keep the server awake)
 app.get('/', (req, res) => {
