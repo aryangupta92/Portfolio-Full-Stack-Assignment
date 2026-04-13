@@ -12,8 +12,8 @@ services:
       - key: PORT
         value: 5000
       - key: MONGODB_URI
-        sync: false          # You set this manually in Render dashboard (secret)
+        value: mongodb+srv://ag:Akki8766@cluster0.teal6h7.mongodb.net/portfolio?retryWrites=true&w=majority&appName=Cluster0
       - key: CLIENT_URL
-        sync: false          # Set to your Vercel frontend URL in Render dashboard
+        value: https://portfolio-full-stack-assignment.vercel.app
     healthCheckPath: /
     autoDeploy: true         # Auto-redeploy when you push to GitHub
