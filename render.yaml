@@ -12,7 +12,7 @@ services:
       - key: PORT
         value: 5000
       - key: MONGODB_URI
-        value: mongodb+srv://ag:Akki8766@cluster0.teal6h7.mongodb.net/portfolio?retryWrites=true&w=majority&appName=Cluster0
+        value: mongodb+srv://aryangupta9352_db_user:akki@cluster0.g5xl0p1.mongodb.net/portfolio?retryWrites=true&w=majority&appName=Cluster0
       - key: CLIENT_URL
         value: https://portfolio-full-stack-assignment.vercel.app
     healthCheckPath: /
