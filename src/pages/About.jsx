@@ -2,6 +2,8 @@ import { motion } from 'framer-motion';
 import { personalInfo } from '../data/portfolio';
 import './About.css';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 const fadeUp = {
   hidden: { opacity: 0, y: 50 },
   visible: (i = 0) => ({ opacity: 1, y: 0, transition: { delay: i * 0.12, duration: 0.65, ease: 'easeOut' } }),
@@ -45,7 +47,7 @@ export default function About() {
           <div className="about-id-glow" />
           <div className="about-avatar-wrap">
             <div className="about-avatar">
-              <span>AM</span>
+              <span>AG</span>
               <div className="about-avatar-ring" />
             </div>
           </div>
@@ -55,9 +57,24 @@ export default function About() {
             <span className="about-avail-dot" />
             Available for opportunities
           </div>
-          <a href="mailto:aryan.gupta9352@gmail.com" className="btn-primary about-dl-btn">
-            ↓ Download Resume
-          </a>
+          <div className="about-dl-group">
+            <a
+              href={`${API_URL}/api/download/pdf`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary about-dl-btn"
+            >
+              📄 Download PDF
+            </a>
+            <a
+              href={`${API_URL}/api/download/docx`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-outline about-dl-btn"
+            >
+              📝 Download DOCX
+            </a>
+          </div>
         </motion.div>
 
         <motion.div className="about-facts-grid" variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={1}>
